@@ -18,11 +18,17 @@ export default function SearchFields(){
     return(
         <div className="flex p-4 rounded border-black">
             <div className="flex p-4 rounded border-black">
-                <label>Search:</label>
-                <input placeholder="search by name"
-                    defaultValue={searchParam.get('searchQuery')?.toString()}
-                    onChange={(e) => searchHandler(e.target.value)}
-                />
+                <form action="#" id="search-projects-form">>
+                    <label for="search-projects">Search:</label>
+                    <input 
+                        id="search-projects"
+                        name="search-projects"
+                        input type="text"
+                        placeholder="search by name"
+                        defaultValue={searchParam.get('searchQuery')?.toString()}
+                        onChange={(e) => searchHandler(e.target.value)}
+                    />
+                </form>
             </div>
         </div>
         )
