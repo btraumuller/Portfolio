@@ -1,9 +1,10 @@
 ## Welcome to My Portfolio Site
 this site leverages the following technologies:
 
-React.js
-Next.js
+React.js,
+Next.js,
 Prisma,
+TailWind CSS,
 MySQL
 
 ## Getting Started
