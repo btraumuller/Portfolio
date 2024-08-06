@@ -15,21 +15,17 @@ export default function SearchFields(){
         }
         replace(`${pathname}?${params.toString()}`);
     }
-    return(
-        <div className="flex p-4 rounded border-black">
-            <div className="flex p-4 rounded border-black">
-                <form action="#" id="search-projects-form">>
-                    <label for="search-projects">Search:</label>
-                    <input 
-                        id="search-projects"
-                        name="search-projects"
-                        input type="text"
-                        placeholder="search by name"
-                        defaultValue={searchParam.get('searchQuery')?.toString()}
-                        onChange={(e) => searchHandler(e.target.value)}
-                    />
-                </form>
-            </div>
+    return (
+        <div className="flex rounded border-black py-8 relative">
+            <label className="sr-only" htmlFor="project-search">Search:</label>
+            <input
+                id="project-search"
+                name="project-search"
+                placeholder="Search by name"
+                defaultValue={searchParam.get('searchQuery')?.toString()}
+                className="w-full rounded p-4"
+                onChange={(e) => searchHandler(e.target.value)}
+            />
         </div>
-        )
+    );
 }

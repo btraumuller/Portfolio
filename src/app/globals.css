@@ -25,9 +25,37 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+footer{
+  background-color: #002d72;
+  padding: 1rem 0;
+  color: #FFF;
+}
+a{
+  color: #002d72;
+}
+a:hover{
+  text-decoration: underline;
+}
 h1, h2{
   font-family: var(--font-dm-sans);
   font-weight: 600;
+}
+.primary-btn{
+  color: #FFF;
+  border-radius: 10px; 
+  padding: 1rem 2rem;
+  background-color:#002d72;
+  transition: ease all .3s;
+}
+.primary-btn:hover{
+  text-decoration: none;
+  background-color: #2e61ad;
+}
+.latest-projects-border:hover{
+  text-decoration:none;
+}
+.latest-projects-border:hover{
+  text-decoration:none;
 }
 @layer utilities {
   .text-balance {
@@ -43,6 +71,7 @@ h1, h2{
     position: relative;
     cursor: pointer;
   }
+  
   .animate-aboutImage {
     @media (prefers-reduced-motion: no-preference)  {
       transform: translateX(50%);

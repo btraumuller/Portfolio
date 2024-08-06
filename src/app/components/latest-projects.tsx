@@ -42,7 +42,7 @@ export default async function latestProjects(){
       return null;
     }else{
       return(
-        <div className="w-full mx-auto max-w-screen-xl">
+        <div className="px-4 w-full mx-auto max-w-screen-xl">
             <h2 className={`${dmSans.variable} text-6xl my-4 lg:my-8 text-center`}>My Latest Projects</h2>
               
             <div className="dm flex flex-col md:flex-row pt-8 justify-between flex">
@@ -52,9 +52,9 @@ export default async function latestProjects(){
                 return(
                     <Link href={projectLink} className="cursor-pointer relative mb-8 hover:relative hover:top-[-20px] md:mb-0 mx-auto project-card md:w-[30%] max-w-[400px] latest-projects-border" key={i}>
                       <Image src={project.thumbnail_imageSrc} width={400} height={400} alt={project.thumbnail_altText}/ >
-                      <div className="p-4">
+                      <div className="p-4 bg-white h-full">
                         <p className='text-black mb-4'>{datePosted}</p>
-                        <h3>{project.project_name}</h3>
+                        <h3 className='text-2xl text-black mb-2'>{project.project_name}</h3>
                         <p className='text-black'>{project.description_short}</p>
                       </div>
                     </Link>
@@ -62,8 +62,8 @@ export default async function latestProjects(){
               })
               }
             </div>
-            <div className="py-8 flex justify-center">
-              <Link className="p-4" href="/projects">View All Projects</Link>
+            <div className="py-4 lg:pb-8 lg:pt-14 flex justify-center">
+              <Link className="primary-btn" href="/projects">View All Projects</Link>
             </div>
           </div>
     )

@@ -37,10 +37,10 @@ export default async function projectDetail({params}:{
     }else{
         return <div className="max-w-screen-xl mx-auto flex flex-col p-4">
             <div className="py-4"><Link className="flex-sm" href="/projects">Projects</Link></div>
-            <Image className="mx-auto" src={projectDetail.imageSrc} width={400} height={400} alt={projectDetail.image_altText}/>
+            <Image className="mx-auto" src="https://placehold.co/800x800" width={800} height={800} alt={projectDetail.image_altText}/>
             <div className="py-8">
                 <h1 className="text-center text-2xl lg:text-5xl">{projectDetail.project_name}</h1>
-                <p className="py-4 text-lg lg:text-2xl">{projectDetail.description_short}</p>
+                <p className="py-4 text-lg lg:text-2xl">{projectDetail.descripition_long}</p>
             </div>
         </div>
     }

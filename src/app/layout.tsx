@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Inter } from "next/font/google";
 import { DM_Sans } from "next/font/google";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
+config.autoAddCss = false;
 import "./globals.css";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
@@ -22,11 +27,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <header className="w-full bg-[#002d72] sticky top-0 z-20">
           <div className="max-w-screen-xl mx-auto flex p-4">
-            <div className="logo mr-auto"><Link href="/">Logo</Link></div>
-            <nav className="navigation">
-              <button className="p-4 text-white">About Me</button>
+            <div className="logo mr-auto self-center"><Link href="/"><FontAwesomeIcon icon={faHouse} className="text-2xl self-center text-white" /></Link></div>
+            <nav className="py-2">
               <Link href="/projects" className="p-4 text-white">Portfolio</Link>
-              <button className="p-4 text-white">Contact Me</button>
+              <Link href="/files/BrianTraumuller_Resume_2024.pdf" className="p-4 text-white">Resume</Link>
             </nav>
           </div>
         </header>

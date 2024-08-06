@@ -23,7 +23,7 @@ export default function bannerComponent(props:bannerData){
                             <div className="flex w-fit animate-loop" >
                                 {props.bannerProp.tags.map((tag)=>{
                                     return(
-                                        <div className="mx-1 my-1 text-white flex-nowrap flex w-auto whitespace-nowrap text-[12rem] leading-[11rem]" key={tag.name}>{tag.name}</div>
+                                        <div className="mx-1 my-1 text-white flex-nowrap flex w-auto whitespace-nowrap text-[8rem] leading-[7rem] lg:text-[12rem] lg:leading-[11rem]" key={tag.name}>{tag.name}</div>
                                         )
                                     })          
                                 }
@@ -34,8 +34,11 @@ export default function bannerComponent(props:bannerData){
                 }) 
             }
             <div className="w-full h-full bg-black absolute opacity-[.65] z-0 animatedBackgroundFade"></div>
-            <div className=" m-4 absolute top-[50%] ml-[50%] translate-y-[-50%] translate-x-[-50%] text-center text-white"><h1 className="text-9xl  leading-[10rem]">{props.bannerProp.headline}</h1></div>
+            <div className=" m-4 absolute top-[50%] ml-[50%] translate-y-[-50%] translate-x-[-50%] text-center text-white">
+                <h1 className="text-5xl lg:text-9xl leading-[4rem] lg:leading-[10rem]">{props.bannerProp.headline}</h1>
+            </div>
         </div> 
     )
         
 }
+

@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import LatestProjects from './components/latest-projects';
 import AboutMe from "./components/aboutMe";
-
+import ContactUs from "./components/contactUs";
 
 
 const siteData = {
@@ -32,10 +32,13 @@ export default async function Home() {
           <Banner bannerProp={siteData} />
         </section>
         <section id="about-me" className="py-8">
-          <AboutMe aboutProp={siteData} />
+          <LatestProjects/>
         </section>
         <section id="latest-projects" className="py-8">
-          <LatestProjects/>
+          <AboutMe aboutProp={siteData} />
+        </section>
+        <section id="latest-projects" className="py-8 lg:pb-[10rem] lg:pt-8">
+          <ContactUs />
         </section>
     </main>
   );
