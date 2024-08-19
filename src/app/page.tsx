@@ -1,7 +1,5 @@
 import Image from "next/image";
 import Banner from "./components/bannerComponent";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 import LatestProjects from './components/latest-projects';
 import AboutMe from "./components/aboutMe";
 import ContactUs from "./components/contactUs";
@@ -37,9 +35,9 @@ export default async function Home() {
         <section id="latest-projects" className="py-8">
           <AboutMe aboutProp={siteData} />
         </section>
-        <section id="latest-projects" className="py-8 lg:pb-[10rem] lg:pt-8">
+        {/* <section id="latest-projects" className="py-8 lg:pb-[10rem] lg:pt-8">
           <ContactUs />
-        </section>
+        </section> */}
     </main>
   );
 }

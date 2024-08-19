@@ -1,5 +1,4 @@
 
-import {sendContactForm} from '@/actions/actions';  
 
 export default function contactUs(){
     return(

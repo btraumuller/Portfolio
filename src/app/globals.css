@@ -25,6 +25,15 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+p{
+  padding-top:1;
+  padding-bottom:1rem;
+}
+ul{
+  list-style-type: disc;
+  margin-left:1.3rem;
+
+}
 footer{
   background-color: #002d72;
   padding: 1rem 0;
@@ -71,7 +80,17 @@ h1, h2{
     position: relative;
     cursor: pointer;
   }
-  
+  .detail-image{
+    margin:0 auto;
+    box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, .3);
+    border: 1px solid #000;
+    border-radius: 8px;
+  }
+  .list-column{
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: repeat(1, 244px);
+    grid-gap: 5%;
+  }
   .animate-aboutImage {
     @media (prefers-reduced-motion: no-preference)  {
       transform: translateX(50%);
