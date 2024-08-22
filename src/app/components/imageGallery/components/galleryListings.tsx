@@ -1,29 +1,17 @@
 "use client";
+
 import Image from "next/image";
 
-type galleryListData = {
-    isLoading:boolean,
-    hideList:boolean,
-    showLoadMore:boolean,
-    isNoResults:boolean,
-    hoverLabel:string,
-    noResults:string,
-    loadMoreLabel:string,
-    loadMoreAction:() => void,
-    projectContent:{
-        Link:string,
-        ImageSrc:string,
-        Name:string
-    }[],
-}
+import { galleryListData } from "../types";
 
 export default function GalleryListings(props:galleryListData){
     return(
+        <>
         <div className="tab-content-container">
                 { props.isLoading &&
-                    <p className="is-loading">Your Images are loading</p>
+                    <p className="is-loading"><span>{props.isLoadingLabel}</span></p>
                 }
-                {//props.hideList &&
+                {!props.hideList &&
                     <ul className="project-gallery__grid">
                         { 
                             props.projectContent.map((project, i) => 
@@ -37,13 +25,14 @@ export default function GalleryListings(props:galleryListData){
                         }
                     </ul>
                 }
-                { props.showLoadMore &&
-                    <div className="project-gallery__load-more-container"><button onClick={props.loadMoreAction}>{props.loadMoreLabel}</button></div>
-                }
+                
                 { props.isNoResults &&
                     <p className="no-more-results">{props.noResults}</p>
                 }
             </div>
-        
+            { props.showLoadMore &&
+                <div className="project-gallery__load-more-container"><button onClick={props.loadMoreAction}>{props.loadMoreLabel}</button></div>
+            }
+        </>
     )
 }

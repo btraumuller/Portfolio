@@ -10,44 +10,21 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { useEffect, useReducer, useState, useRef } from 'react';
 import axios from 'axios';
 
-type actionType = {
-    type:string,
-    data:{
-        data: {
-            total:number;
-            results:[];
-        },
-        dataType:string;
-    }
-}
-
-type tabs = {
-    value: string;
-    active: boolean;
-}[];
-
-type initialDataStateType = {
-    tabFilters: [string];
-    filterTags: tabs;
-    dropdownFilters: [string];
-    designStyleTags: tabs;
-    projectList: [];
-    cardsLoaded: number;
-    hideList: boolean;
-    totalResultsLabel: string;
-}
-
-type dataAPIObject = {
-    data: {
-        total:number;
-        results:[];
-    },
-    dataType:string;
-}
+import { 
+    TabsType, 
+    OptionType, 
+    ProjectListType, 
+    DataAPIObjectType, 
+    ActionType, 
+    BooleanStateTypes, 
+    LabelTypes, 
+    SplideOptionTypes,
+    URLSelectionsType 
+} from './types';
 
 const API_KEY = process.env.NEXT_PUBLIC_SPLASH_API_KEY
 
-const SplideOptions = {
+const SplideOptions: SplideOptionTypes = {
     gap: '3rem',
     perPage: 8,
     perMove:8,
@@ -56,23 +33,23 @@ const SplideOptions = {
     rewind: false,
 }
 
-const Labels = {
+const Labels:LabelTypes = {
     noResultsLabel: 'There are no results to display',
-    LoadMoreLabel: 'load more',
+    loadMoreLabel: 'load more',
     viewDetailsLabel: 'Details',
     cardHoverLabel: 'See more',
     totalResultsLabel: 'Results',
+    loadingLabel: 'Your Images are loading',
 }
 
-let booleanStates = {
+let booleanStates: BooleanStateTypes = {
     initialLoad: true,
-    isLoading: false,
+    isLoading: true,
     allCards: true,
     isNoResults: false,
-    getPreviousCards: false
 }
 
-let initialDataState = {
+let initialDataState:any = {
     tabFilters: [
         "photos",
         "collections"
@@ -101,40 +78,29 @@ let initialDataState = {
     totalResultsLabel: '',
 }
 
-let urlSelections = {
+let urlSelections: URLSelectionsType = {
     roomSelection: '',
     designSelection: '',
     page: 1,
     callType: 'initial',
+    mobileLoad: 4,
+    desktopLoad: 10,
 }
 
-function objectGenerator(type:string, data:[string]){
+function objectGenerator( data:string[]):OptionType[]{
+    
     let Selections = data,
         selection:string,
         selectionsIdArray = [];
+
     for (selection of Selections){
-        let selectionId:string;
-        let option:{} = {}
-        if ((/\s/).test(selection)){
-            selectionId = selection.replace(/\s+/g, '%20').toLowerCase();
-        }else{
-            selectionId = selection.toLowerCase();
-        }
-        if (type = 'tab'){
-            let isActive;
-            option = {
-                value: selectionId,
+        
+        let selectionId:string = selection.toLowerCase(), 
+            option:OptionType = {
+                value: encodeURIComponent(selectionId),
                 label: selection,
-                active: isActive
-
-            }
-        }else if (type = 'dropdown'){
-            option = {
-                value: selectionId,
-                label: selection,
-
-            }
-        }
+                active: false
+            };
 
         selectionsIdArray.push(option);
     }
@@ -142,9 +108,9 @@ function objectGenerator(type:string, data:[string]){
     return selectionsIdArray
 }
 
-function getProjectList(newprojectListData:[], currentProjectListData:[], callType:string, dataType:string){
-    
-    type ProjectCard = {
+function getProjectList(newprojectListData:[], currentProjectListData:ProjectListType[], callType:string, dataType:string):[ProjectListType[],boolean,number]{
+
+    type ProjectCardType = {
         Name:string;
         ImageSrc: string;
         Link: string;
@@ -168,7 +134,7 @@ function getProjectList(newprojectListData:[], currentProjectListData:[], callTy
         }
     }
 
-    let projectList:ProjectCard[] = [],
+    let projectList:ProjectCardType[] = [],
         hideList:boolean = true; 
      
     if (callType === 'initial'){
@@ -201,7 +167,7 @@ function getProjectList(newprojectListData:[], currentProjectListData:[], callTy
                     break;
             }
 
-            let card: ProjectCard = {
+            let card: ProjectCardType = {
                 Name: cardName,
                 ImageSrc: cardImageSrc,
                 Link: cardLink
@@ -226,9 +192,7 @@ function getProjectList(newprojectListData:[], currentProjectListData:[], callTy
     return([projectList, hideList, cardsCounted]);
 }
 
-
-
-function getData(state: any , action: actionType){
+function getData(state: any , action: ActionType){
 
     let total:number = Number(action.data.data.total);
     let totalResults:string = action.data.data.total + ' '+ Labels.totalResultsLabel;
@@ -241,9 +205,9 @@ function getData(state: any , action: actionType){
         case 'initial':
             return{
                 tabFilters: state.tabFilters,
-                filterTags: objectGenerator('tab', state.tabFilters),
+                filterTags: objectGenerator(state.tabFilters),
                 dropdownFilters: state.dropdownFilters,
-                designStyleTags: objectGenerator('dropdown', state.dropdownFilters),
+                designStyleTags: objectGenerator(state.dropdownFilters),
                 projectList: projectListData,
                 hideList: hideListBoolean,
                 totalResultsLabel: totalResults,
@@ -271,24 +235,20 @@ function getData(state: any , action: actionType){
     
 }
 
-function setActiveSlide(initialLoad:boolean, tabFilters:[], roomSelection:string){ 
+function setActiveSlide( tabFilters:[], roomSelection:string){ 
 
-    if (!initialLoad){
+        let TabsType:TabsType = tabFilters;
 
-        let tabs:tabs = tabFilters;
-
-        for(let tab of tabs){
+        for(let tab of TabsType){
             if(tab.value === roomSelection){
                 tab.active = true;
             }else{
                 tab.active = false;
             }
         }
-    }
 }
 
-export default function ImageGallery({}:{
-}){
+export default function ImageGallery(){
     const SplideRef = useRef();
     const SelectRef = useRef<SelectInstance | null>(null);
     const [BooleanValues, setBooleanValues] = useState(booleanStates);
@@ -298,16 +258,19 @@ export default function ImageGallery({}:{
     const SearchParam = useSearchParams();
     const {replace} = useRouter();
     const PathName = usePathname();
-    
-    const SelectAction = (eventValue: string | {value:string}, categoryType:string) => {
 
-        let selectValue:string = (typeof eventValue === 'string')? eventValue : eventValue.value;
-        let urlParams = new URLSearchParams(SearchParam);
     
+
+    const SelectAction = (eventValue: string | {value:string}, categoryType:string) => {
+        let selectValue:string = (typeof eventValue === 'string')? eventValue : eventValue.value;
+        let urlParams: URLSearchParams = new URLSearchParams(SearchParam);
+        
         if (categoryType === "Room"){
             
-            setSelections((prevState) => ({...prevState, roomSelection: selectValue, designSelection: Math.random.toString(), page: 1, callType: 'initial'}));
+            let designSelectionValue:string = Math.random.toString();
+            setSelections((prevState) => ({...prevState, roomSelection: selectValue, designSelection: designSelectionValue, page: 1, callType: 'initial'}));
             urlParams.set('roomType', selectValue);
+            urlParams.set('designType', '');
             
         }else{
 
@@ -316,29 +279,38 @@ export default function ImageGallery({}:{
             
         }
 
-        urlParams.set('currentCards', '10');
+        let inititalCards = (window.outerWidth < 1025)? urlSelections.mobileLoad : urlSelections.desktopLoad;
+
+        urlParams.set('currentCards', inititalCards.toString());
 
         replace(`${PathName}?${urlParams.toString()}`, {scroll: false});
 
-        setCallEffect(!CallEffect);
+    }
 
+    const CheckKey = (event:KeyboardEvent, eventValue: string | {value:string}, categoryType:string) => {
+        if (event.key === 'Enter'){
+            SelectAction(eventValue, categoryType);
+        }
     }
 
     const LoadMore = () => {
 
-        let urlParams = new URLSearchParams(SearchParam);
-
-        let totalCardsLoaded = DataState.cardsLoaded + 10;
+        let additonalCards:number = (window.outerWidth < 1025)? urlSelections.mobileLoad : urlSelections.desktopLoad,
+            totalCardsLoaded:number = DataState.cardsLoaded + additonalCards,
+            urlParams: URLSearchParams = new URLSearchParams(SearchParam);
 
         setSelections((prevState) => ({...prevState, page: Selections.page + 1, callType: 'LoadMore'}));
 
         urlParams.set('currentCards', totalCardsLoaded.toString());
-        replace(`${PathName}?${urlParams.toString()}`, {scroll: false});
+
+        replace(`${PathName}?${new URLSearchParams(SearchParam).toString()}`, {scroll: false});
 
         setCallEffect(!CallEffect);
     }
 
     useEffect(() => {
+
+        const Controller = new AbortController();
 
         setBooleanValues((prevState) => ({...prevState, isLoading: true}));
         
@@ -364,22 +336,21 @@ export default function ImageGallery({}:{
             urlRoom = Selections.roomSelection;
             urlQuery = Selections.designSelection;
             urlPage = Selections.page,
-            urlCardCount = 10;
+            urlCardCount = (window.outerWidth < 1025)? urlSelections.mobileLoad : urlSelections.desktopLoad;
         }
 
-        if (Selections.roomSelection !== ''){     
+       if (Selections.roomSelection !== ''){     
 
             let api = `https://api.unsplash.com/search/${urlRoom}?client_id=${API_KEY}&page=${urlPage}&per_page=${urlCardCount}&query=${urlQuery}`;
             
-            axios.get(api)
+            axios.get(api, {signal: Controller.signal})
                 .then(response =>{
 
-                    // retrieve and sort Data
                     if(response.data.total === 0){
                         setBooleanValues((prevState) => ({...prevState, isNoResults: true}));
                     }else{
 
-                        let dataObject:dataAPIObject = {
+                        let dataObject:DataAPIObjectType = {
                             data: response.data,
                             dataType: Selections.roomSelection
                         }
@@ -396,31 +367,32 @@ export default function ImageGallery({}:{
                     retrieveData({type: 'Error', data: { data: { total: 0, results: [] }, dataType: '' }});
                 });
 
-                setBooleanValues((prevState) => ({...prevState, initialLoad: false, isLoading: false}));
-            }
+                setBooleanValues((prevState) => ({...prevState, initialLoad: false, isLoading: false}));   
+                
+                return () =>{ 
+                    Controller.abort();
+                }
+          }
               
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ Selections.designSelection, Selections.roomSelection, CallEffect]);
+    }, [Selections.designSelection, Selections.roomSelection, CallEffect, BooleanValues.initialLoad, Selections.page, Selections.callType, SearchParam, DataState.tabFilters]);
     
-    setActiveSlide(BooleanValues.initialLoad, DataState.filterTags, Selections.roomSelection);
-
+   
+    setActiveSlide(DataState.filterTags, Selections.roomSelection);
+    
     return(
         <div className='project-gallery'>
             <div className="project-gallery__filters">
                     { !BooleanValues.initialLoad &&
-                    <Splide className="nav nav-tabs splide__list" role="tablist" options={SplideOptions} ref={SplideRef}>
+                    <Splide className="nav nav-TabsType splide__list" role="tablist" options={SplideOptions} ref={SplideRef}>
                         {
                             DataState.filterTags.map((tab:{active:boolean, value:string, label:string}, i:number) =>
                                 <SplideSlide  
                                     key={i}  
                                     role="presentation" 
-                                    className="splide__slide">
-                                        <button 
-                                            className={(tab.active ? 'active' : '')} 
-                                            onClick={() => SelectAction(tab.value, 'Room')} 
-                                            type="button" >
-                                                    {tab.label}
-                                            </button>
+                                    className= {`splide__slide ${tab.active ? 'active' : ''}`} 
+                                    onClick={() => SelectAction(tab.value, 'Room')} 
+                                    onKeyUp={(event:KeyboardEvent) => CheckKey(event,tab.value, 'Room')}>
+                                        {tab.label}
                                 </SplideSlide>
                             )
                         }
@@ -435,7 +407,7 @@ export default function ImageGallery({}:{
                     placeholder="Select Room" 
                     className="select-dropdown-container mobile-filter" 
                     classNamePrefix="select-dropdown" 
-                    onChange={(e) => SelectAction(e, 'Room')} />
+                    onChange={(e: { value: string }) => SelectAction(e, 'Room')} />
                 
                 <p className="project-gallery__counter">{DataState.totalResultsLabel}</p>
 
@@ -446,7 +418,7 @@ export default function ImageGallery({}:{
                     isSearchable={false} 
                     className="select-dropdown-container" 
                     classNamePrefix="select-dropdown" 
-                    onChange={(e:any) => SelectAction(e , 'Design')}
+                    onChange={(e: unknown) => SelectAction(e as { value: string }, 'Design')}
                     instanceId={useId()}
                     ref={SelectRef}
                 />
@@ -455,7 +427,8 @@ export default function ImageGallery({}:{
                     hideList={DataState.hideList} 
                     projectContent={DataState.projectList} 
                     loadMoreAction={LoadMore} 
-                    loadMoreLabel={Labels.LoadMoreLabel} 
+                    loadMoreLabel={Labels.loadMoreLabel}
+                    isLoadingLabel={Labels.loadingLabel} 
                     hoverLabel={Labels.cardHoverLabel} 
                     showLoadMore={BooleanValues.allCards} 
                     noResults={Labels.noResultsLabel} 
