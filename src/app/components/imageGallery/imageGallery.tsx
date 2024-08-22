@@ -236,7 +236,6 @@ function getData(state: any , action: ActionType){
 }
 
 function setActiveSlide( tabFilters:[], roomSelection:string){ 
-
         let TabsType:TabsType = tabFilters;
 
         for(let tab of TabsType){
@@ -259,6 +258,9 @@ export default function ImageGallery(){
     const {replace} = useRouter();
     const PathName = usePathname();
 
+    const RoomTypeParam = SearchParam.get("roomType");
+    const StyleTypeParam = SearchParam.get("designType");
+    const CurrentCards = SearchParam.get("currentCards");
     
 
     const SelectAction = (eventValue: string | {value:string}, categoryType:string) => {
@@ -306,43 +308,35 @@ export default function ImageGallery(){
         replace(`${PathName}?${new URLSearchParams(SearchParam).toString()}`, {scroll: false});
 
         setCallEffect(!CallEffect);
+    
     }
+
+    useEffect(() => {
+
+        let urlRoom:string,
+            urlQuery:string,
+            urlCardCount:number
+
+            urlRoom = (RoomTypeParam) ? RoomTypeParam : DataState.tabFilters[0];
+            urlCardCount = (CurrentCards) ? parseInt(CurrentCards) : 10;
+            urlQuery= (StyleTypeParam) ? StyleTypeParam : Math.random.toString();
+
+            setSelections((prevState) => ({...prevState, roomSelection: urlRoom, designSelection: urlQuery, currentCards: urlCardCount}))
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
 
         const Controller = new AbortController();
 
         setBooleanValues((prevState) => ({...prevState, isLoading: true}));
-        
-        let urlRoom:string,
-            urlQuery:string,
-            urlCardCount:number,
-            urlPage:number;
 
-        if (BooleanValues.initialLoad){
+       if (Selections.roomSelection !== ''){
 
-            const RoomTypeParam = SearchParam.get("roomType");
-            const StyleTypeParam = SearchParam.get("designType");
-            const CurrentCards = SearchParam.get("currentCards");
+            let urlCardCount = (window.outerWidth < 1025)? urlSelections.mobileLoad : urlSelections.desktopLoad;
+            let api = `https://api.unsplash.com/search/${Selections.roomSelection}?client_id=${API_KEY}&page=${Selections.page}&per_page=${urlCardCount}&query=${Selections.designSelection}`;
 
-            urlRoom = (RoomTypeParam) ? RoomTypeParam : DataState.tabFilters[0];
-            urlCardCount = (CurrentCards) ? parseInt(CurrentCards) : 10;
-            urlQuery= (StyleTypeParam) ? StyleTypeParam : Math.random.toString();
-            urlPage = Selections.page;
-
-            setSelections((prevState) => ({...prevState, roomSelection: urlRoom, designSelection: urlQuery, currentCards: urlCardCount}));
-
-        }else{
-            urlRoom = Selections.roomSelection;
-            urlQuery = Selections.designSelection;
-            urlPage = Selections.page,
-            urlCardCount = (window.outerWidth < 1025)? urlSelections.mobileLoad : urlSelections.desktopLoad;
-        }
-
-       if (Selections.roomSelection !== ''){     
-
-            let api = `https://api.unsplash.com/search/${urlRoom}?client_id=${API_KEY}&page=${urlPage}&per_page=${urlCardCount}&query=${urlQuery}`;
-            
             axios.get(api, {signal: Controller.signal})
                 .then(response =>{
 
@@ -374,15 +368,15 @@ export default function ImageGallery(){
                 }
           }
               
-    }, [Selections.designSelection, Selections.roomSelection, CallEffect, BooleanValues.initialLoad, Selections.page, Selections.callType, SearchParam, DataState.tabFilters]);
+    }, [Selections.designSelection, Selections.roomSelection, CallEffect, Selections.page, Selections.callType]);
     
-   
-    setActiveSlide(DataState.filterTags, Selections.roomSelection);
-    
+    if(booleanStates.initialLoad){
+        setActiveSlide(DataState.filterTags, Selections.roomSelection);
+    }
+        
     return(
         <div className='project-gallery'>
             <div className="project-gallery__filters">
-                    { !BooleanValues.initialLoad &&
                     <Splide className="nav nav-TabsType splide__list" role="tablist" options={SplideOptions} ref={SplideRef}>
                         {
                             DataState.filterTags.map((tab:{active:boolean, value:string, label:string}, i:number) =>
@@ -397,7 +391,6 @@ export default function ImageGallery(){
                             )
                         }
                     </Splide>
-                    }
                 </div>
 
                 <Select 
