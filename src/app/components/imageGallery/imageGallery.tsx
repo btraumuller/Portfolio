@@ -332,7 +332,7 @@ export default function ImageGallery(){
        if (Selections.roomSelection !== ''){
 
             let api = `https://api.unsplash.com/search/${Selections.roomSelection}?client_id=${API_KEY}&page=${Selections.page}&per_page=${Selections.cardsPerPage}&query=${Selections.designSelection}`;
-            console.log(api);
+         
             axios.get(api, {signal: Controller.signal})
                 .then(response =>{
 
@@ -354,7 +354,7 @@ export default function ImageGallery(){
                         setBooleanValues((prevState) => ({...prevState, isNoResults: false}));
                     }
 
-                }).catch(error => {
+                }).catch(() => {
                     retrieveData({type: 'Error', data: { data: { total: 0, results: [] }, dataType: '', dropdownType:'' }});
                 });
 
