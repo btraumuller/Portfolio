@@ -9,6 +9,7 @@ export type SplideOptionTypes = {
 export type URLSelectionsType = {
     roomSelection: string,
     designSelection: string,
+    cardsPerPage: number,
     page: number,
     callType: string,
     mobileLoad:number,
@@ -23,13 +24,9 @@ export type ActionType = {
             results:[];
         },
         dataType:string;
+        dropdownType:string;
     }
 }
-
-export type TabsType = {
-    value: string;
-    active: boolean;
-}[];
 
 export type DataAPIObjectType = {
     data: {
@@ -37,6 +34,7 @@ export type DataAPIObjectType = {
         results:[];
     },
     dataType:string;
+    dropdownType:string;
 }
 
 export type OptionType = {
@@ -59,7 +57,6 @@ export type LabelTypes = {
     loadingLabel: string,
 }
 export type BooleanStateTypes ={
-    initialLoad: boolean,
     isLoading: boolean,
     allCards: boolean,
     isNoResults: boolean,

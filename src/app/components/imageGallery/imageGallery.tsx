@@ -11,7 +11,6 @@ import { useEffect, useReducer, useState, useRef } from 'react';
 import axios from 'axios';
 
 import { 
-    TabsType, 
     OptionType, 
     ProjectListType, 
     DataAPIObjectType, 
@@ -43,7 +42,6 @@ const Labels:LabelTypes = {
 }
 
 let booleanStates: BooleanStateTypes = {
-    initialLoad: true,
     isLoading: true,
     allCards: true,
     isNoResults: false,
@@ -82,30 +80,31 @@ let urlSelections: URLSelectionsType = {
     roomSelection: '',
     designSelection: '',
     page: 1,
-    callType: 'initial',
+    callType: 'Reset',
+    cardsPerPage: 0,
     mobileLoad: 4,
     desktopLoad: 10,
 }
 
-function objectGenerator( data:string[]):OptionType[]{
+function objectGenerator( data:string[], roomSelection:string):OptionType[]{
     
     let Selections = data,
-        selection:string,
         selectionsIdArray = [];
 
-    for (selection of Selections){
+    for (let selection of Selections){
         
-        let selectionId:string = selection.toLowerCase(), 
+        let selectionId:string = selection.toLowerCase(),
+            isActive:boolean = (selection === roomSelection) ? true : false, 
             option:OptionType = {
                 value: encodeURIComponent(selectionId),
                 label: selection,
-                active: false
+                active: isActive
             };
 
         selectionsIdArray.push(option);
     }
 
-    return selectionsIdArray
+    return selectionsIdArray;
 }
 
 function getProjectList(newprojectListData:[], currentProjectListData:ProjectListType[], callType:string, dataType:string):[ProjectListType[],boolean,number]{
@@ -137,7 +136,7 @@ function getProjectList(newprojectListData:[], currentProjectListData:ProjectLis
     let projectList:ProjectCardType[] = [],
         hideList:boolean = true; 
      
-    if (callType === 'initial'){
+    if (callType === 'Reset'){
         projectList = [];
     }else{
         projectList = currentProjectListData;
@@ -202,12 +201,12 @@ function getData(state: any , action: ActionType){
 
     switch(action.type){
         
-        case 'initial':
+        case 'Reset':
             return{
                 tabFilters: state.tabFilters,
-                filterTags: objectGenerator(state.tabFilters),
+                filterTags: objectGenerator(state.tabFilters, action.data.dataType),
                 dropdownFilters: state.dropdownFilters,
-                designStyleTags: objectGenerator(state.dropdownFilters),
+                designStyleTags: objectGenerator(state.dropdownFilters, action.data.dropdownType),
                 projectList: projectListData,
                 hideList: hideListBoolean,
                 totalResultsLabel: totalResults,
@@ -235,18 +234,6 @@ function getData(state: any , action: ActionType){
     
 }
 
-function setActiveSlide( tabFilters:[], roomSelection:string){ 
-        let TabsType:TabsType = tabFilters;
-
-        for(let tab of TabsType){
-            if(tab.value === roomSelection){
-                tab.active = true;
-            }else{
-                tab.active = false;
-            }
-        }
-}
-
 export default function ImageGallery(){
     const SplideRef = useRef();
     const SelectRef = useRef<SelectInstance | null>(null);
@@ -264,19 +251,29 @@ export default function ImageGallery(){
     
 
     const SelectAction = (eventValue: string | {value:string}, categoryType:string) => {
-        let selectValue:string = (typeof eventValue === 'string')? eventValue : eventValue.value;
-        let urlParams: URLSearchParams = new URLSearchParams(SearchParam);
-        
+        let selectValue:string = (typeof eventValue === 'string')? eventValue : eventValue.value,
+        urlParams: URLSearchParams = new URLSearchParams(SearchParam),
+        urlCardCount:number = (window.outerWidth < 1025)? urlSelections.mobileLoad : urlSelections.desktopLoad;        
         if (categoryType === "Room"){
             
             let designSelectionValue:string = Math.random.toString();
-            setSelections((prevState) => ({...prevState, roomSelection: selectValue, designSelection: designSelectionValue, page: 1, callType: 'initial'}));
+            setSelections((prevState) => ({...prevState, 
+                roomSelection: selectValue, 
+                designSelection: designSelectionValue, 
+                page: 1, 
+                cardsPerPage:urlCardCount,
+                callType: 'Reset'}));
+
             urlParams.set('roomType', selectValue);
             urlParams.set('designType', '');
             
         }else{
 
-            setSelections((prevState) => ({...prevState, designSelection: selectValue, page: 1, callType: 'initial'}));
+            setSelections((prevState) => ({...prevState, 
+                designSelection: selectValue,
+                page: 1, 
+                cardsPerPage:urlCardCount,
+                callType: 'Reset'})),
             urlParams.set('designType', selectValue);
             
         }
@@ -301,11 +298,11 @@ export default function ImageGallery(){
             totalCardsLoaded:number = DataState.cardsLoaded + additonalCards,
             urlParams: URLSearchParams = new URLSearchParams(SearchParam);
 
-        setSelections((prevState) => ({...prevState, page: Selections.page + 1, callType: 'LoadMore'}));
+        setSelections((prevState) => ({...prevState, page: Selections.page + 1, cardsPerPage:additonalCards, callType: 'LoadMore'}));
 
         urlParams.set('currentCards', totalCardsLoaded.toString());
 
-        replace(`${PathName}?${new URLSearchParams(SearchParam).toString()}`, {scroll: false});
+        replace(`${PathName}?${urlParams.toString()}`, {scroll: false});
 
         setCallEffect(!CallEffect);
     
@@ -321,7 +318,7 @@ export default function ImageGallery(){
             urlCardCount = (CurrentCards) ? parseInt(CurrentCards) : 10;
             urlQuery= (StyleTypeParam) ? StyleTypeParam : Math.random.toString();
 
-            setSelections((prevState) => ({...prevState, roomSelection: urlRoom, designSelection: urlQuery, currentCards: urlCardCount}))
+            setSelections((prevState) => ({...prevState, roomSelection: urlRoom, designSelection: urlQuery, cardsPerPage: urlCardCount}))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -334,9 +331,8 @@ export default function ImageGallery(){
 
        if (Selections.roomSelection !== ''){
 
-            let urlCardCount = (window.outerWidth < 1025)? urlSelections.mobileLoad : urlSelections.desktopLoad;
-            let api = `https://api.unsplash.com/search/${Selections.roomSelection}?client_id=${API_KEY}&page=${Selections.page}&per_page=${urlCardCount}&query=${Selections.designSelection}`;
-
+            let api = `https://api.unsplash.com/search/${Selections.roomSelection}?client_id=${API_KEY}&page=${Selections.page}&per_page=${Selections.cardsPerPage}&query=${Selections.designSelection}`;
+            console.log(api);
             axios.get(api, {signal: Controller.signal})
                 .then(response =>{
 
@@ -346,7 +342,8 @@ export default function ImageGallery(){
 
                         let dataObject:DataAPIObjectType = {
                             data: response.data,
-                            dataType: Selections.roomSelection
+                            dataType: Selections.roomSelection,
+                            dropdownType: Selections.designSelection
                         }
 
                         retrieveData({
@@ -358,21 +355,18 @@ export default function ImageGallery(){
                     }
 
                 }).catch(error => {
-                    retrieveData({type: 'Error', data: { data: { total: 0, results: [] }, dataType: '' }});
+                    retrieveData({type: 'Error', data: { data: { total: 0, results: [] }, dataType: '', dropdownType:'' }});
                 });
 
-                setBooleanValues((prevState) => ({...prevState, initialLoad: false, isLoading: false}));   
+                setBooleanValues((prevState) => ({...prevState, isLoading: false}));   
                 
                 return () =>{ 
                     Controller.abort();
                 }
           }
               
-    }, [Selections.designSelection, Selections.roomSelection, CallEffect, Selections.page, Selections.callType]);
+    }, [Selections.designSelection, Selections.roomSelection, CallEffect, Selections.page, Selections.callType, Selections.cardsPerPage]);
     
-    if(booleanStates.initialLoad){
-        setActiveSlide(DataState.filterTags, Selections.roomSelection);
-    }
         
     return(
         <div className='project-gallery'>
