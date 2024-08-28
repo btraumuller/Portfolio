@@ -1,3 +1,4 @@
+import { height } from "@fortawesome/free-brands-svg-icons/fa42Group";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -36,12 +37,23 @@ const config: Config = {
             transform: 'translateX(0)',
             opacity: '1'
           }
+        },
+        header:{
+          '0%' :{
+            background:'transparent',
+            padding:'1rem 0',
+          },
+          '100%' :{
+            background:'#002d72',
+            padding:'0'
+          }
         }
       },
       animation:{
         loop: 'loop linear infinite var(--duration) var(--direction) ',
         aboutImage:'aboutImage linear forwards',
-        aboutDescription:'aboutDescription linear forwards'
+        aboutDescription:'aboutDescription linear forwards',
+        header: 'header linear .1s forwards'
       },
     },
   },

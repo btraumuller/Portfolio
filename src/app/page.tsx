@@ -1,8 +1,7 @@
-import Image from "next/image";
-import Banner from "./components/bannerComponent";
 import LatestProjects from './components/latest-projects';
 import AboutMe from "./components/aboutMe";
-import ContactUs from "./components/contactUs";
+import Ticker from "./components/imageTicker/imageTicker";
+import ParallaxBanner from "./components/parralaxBanner/parallaxBanner";
 
 
 const siteData = {
@@ -24,20 +23,24 @@ const siteData = {
 }
 export default async function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center w-full">
-        
-        <section id="intro-banner" className="pb-2 w-full">
-          <Banner bannerProp={siteData} />
-        </section>
-        <section id="about-me" className="py-8">
+    <>
+    <section id="intro-banner" className="w-full">
+          <ParallaxBanner />
+    </section>
+    <main className="flex min-h-screen flex-col items-center w-full relative z-[1]">
+        <section id="latest-projects" className="py-8">
           <LatestProjects/>
         </section>
-        <section id="latest-projects" className="py-8">
+        <section id="about-me" className="py-8">
           <AboutMe aboutProp={siteData} />
+        </section>
+        <section id="ticker" className="py-8">
+          <Ticker />
         </section>
         {/* <section id="latest-projects" className="py-8 lg:pb-[10rem] lg:pt-8">
           <ContactUs />
         </section> */}
     </main>
+    </>
   );
 }

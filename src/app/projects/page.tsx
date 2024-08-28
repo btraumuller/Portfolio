@@ -31,7 +31,7 @@ export default async function projectList({searchParams}:{
         src: '/img/portfolio-mobile.jpg',
     })
     return(
-        <div>
+        <>
             <div className='relative overflow-hidden max-h-[400px] lg:max-h-[1000px]'>
                 <picture>
                     <source media="(min-width: 1000px)" srcSet={desktop} />
@@ -44,12 +44,15 @@ export default async function projectList({searchParams}:{
                     <p className='text-center mt-4 text-white text-xl'>View some of the projects that I have worked on in both a professional and personal setting.</p>
                 </div>
             </div>
-            <div className='max-w-screen-xl mx-auto flex flex-col px-4 py-8 z-10'>
-                <Link href='/'><FontAwesomeIcon icon={faHouse} className=" self-center mr-2 text-1xl" />Home</Link>
-                <SearchFields />
-                <ProjectList query={searchQuery} />
-            </div>
-        </div>
+            <main className="flex min-h-screen flex-col items-center w-full relative z-[1]">
+                <div className='max-w-screen-xl mx-auto flex flex-col px-4 py-8 z-10'>
+                    <Link href='/'><FontAwesomeIcon icon={faHouse} className=" self-center mr-2 text-1xl" />Home</Link>
+                    <SearchFields />
+                    <ProjectList query={searchQuery} />
+                </div>
+            </main>
+        </>
+        
     ) 
     
 }

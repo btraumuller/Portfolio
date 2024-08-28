@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="w-full bg-[#002d72] sticky top-0 z-20">
+        <header className="w-full top-0 z-20 animate-header">
           <div className="max-w-screen-xl mx-auto flex p-4">
             <div className="logo mr-auto self-center"><Link href="/"><FontAwesomeIcon icon={faHouse} className="text-2xl self-center text-white" /></Link></div>
             <nav className="py-2">

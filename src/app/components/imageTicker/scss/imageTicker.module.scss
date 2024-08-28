@@ -1,0 +1,24 @@
+$n:5; /* number of images*/
+
+.gallery  {
+  --d: 10s; /* duration */
+  
+  display: grid;
+  overflow: hidden;
+  width: 380px;
+  -webkit-mask: linear-gradient(90deg,#0000,#000 10% 90%,#0000);
+}
+.gallery > img {
+  grid-area: 1/1;
+  width: 100%;
+  aspect-ratio: 1.5;
+  object-fit: cover;
+  animation: r var(--d) linear infinite;
+}
+@for $i from 2 to ($n + 1) {
+  .gallery > img:nth-child(#{$i}) {animation-delay: calc(#{(1 - $i)/$n}*var(--d))}
+}
+@keyframes r {
+    #{100*($n - 1)/$n}% {transform: translate((1 - $n)*100%)}
+    #{100*($n - 1)/$n + .01}% {transform: translate(100%)}
+}
