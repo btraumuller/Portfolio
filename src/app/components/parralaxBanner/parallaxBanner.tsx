@@ -1,35 +1,100 @@
 import styles from "./scss/parallax-banner.module.scss";
 import { getImageProps } from "next/image";
+import type { GetStaticProps } from "next";
+type bannerDataType = {
+    headline: string,
+    description: string,
+    desktopImage: {node: {altText: string, mediaItemUrl: string}},
+    mobileImage: {node: {altText: string, mediaItemUrl: string}},
+    tabletImage: {node: {altText: string, mediaItemUrl: string}}
+}
 
-const common = { alt: 'Art Direction Example', sizes: '100vw' }
-const {
-    props: { srcSet: desktop },
-} = getImageProps({
-    ...common,
-    width: 1920,
-    height: 768,
-    quality: 90,
-    src: '/img/projects/banner/boston-banner.jpg',
-})
-const {
-    props: { srcSet: tablet },
-} = getImageProps({
-    ...common,
-    width: 1024,
-    height: 1024,
-    quality: 90,
-    src: '/img/projects/banner/boston-banner-tablet.jpg',
-})
-const {
-    props: { ...mobile},
-} = getImageProps({
-    ...common,
-    width: 800,
-    height: 1200,
-    quality: 90,
-    src: '/img/projects/banner/boston-banner-mobile.jpg',
-})
-export default function parallaxBanner() {
+const common = {sizes: '100vw' }
+
+export async function GetStaticProps(){
+    try{
+  
+    const banner = await fetch('http://btraumullerportfoliocom.local/graphql', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},  
+        body: JSON.stringify({
+          query: `query getBanner {
+            banners(where: {title: "Home Page"}) {
+                nodes {
+                bannerFields {
+                    description
+                    headline
+                    desktopImage {
+                    node {
+                        altText
+                        mediaItemUrl
+                    }
+                    }
+                    mobileImage {
+                    node {
+                        altText
+                        mediaItemUrl
+                    }
+                    }
+                    tabletImage {
+                    node {
+                        altText
+                        mediaItemUrl
+                    }
+                    }
+                }
+                }
+            }
+            }
+        `})
+      });
+  
+      let json = await banner.json();
+
+      let bannerData = {
+        props: {
+          banner: json.data.banners.nodes[0].bannerFields
+        }
+      }
+      return bannerData.props.banner;
+  
+    }catch{
+      console.log('Hey there is an error with the Banner API call');
+    }
+  }
+
+  
+
+export default async function parallaxBanner() {
+    const bannerData: bannerDataType = await GetStaticProps();
+
+    const {props: { srcSet: desktop }} = getImageProps({
+        ...common,
+        width: 1920,
+        height: 768,
+        quality: 90,
+        src: bannerData.desktopImage.node.mediaItemUrl,
+        alt: bannerData.desktopImage.node.altText
+    })
+
+    const {props: { srcSet: tablet }} = getImageProps({
+        ...common,
+        width: 1024,
+        height: 1024,
+        quality: 90,
+        src: bannerData.tabletImage.node.mediaItemUrl,
+        alt: bannerData.tabletImage.node.altText
+    })
+
+    const {props: { ...mobile}} = getImageProps({
+        ...common,
+        width: 800,
+        height: 1200,
+        quality: 90,
+        src: bannerData.mobileImage.node.mediaItemUrl,
+        alt: bannerData.mobileImage.node.altText
+    })
+   
     return(
         <div className={styles.parallax}>
             <picture>
@@ -38,9 +103,9 @@ export default function parallaxBanner() {
                 <img {...mobile} className='w-full min-h-[400px] absolute top-0 z-0 object-cover' />
             </picture>
             <div className={styles.parallax__content}>
-                <h1>Brian Traumuller</h1>
+                <h1>{bannerData.headline}</h1>
                 <div className={styles.parallax__bar}></div>
-                <p>Experienced Front-end Developer in the Boston Area</p>
+                <p>{bannerData.description}</p>
             </div>
             <div className={styles.parallax__overlay}></div>
         </div>

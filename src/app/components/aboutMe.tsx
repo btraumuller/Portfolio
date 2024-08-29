@@ -62,7 +62,7 @@ export async function GetStaticProps(){
       });
   
       let json = await aboutUs.json();
-      console.log(json);
+      
       let bioData = {
         props: {
           bio: json.data.bios.nodes[0].bioFields

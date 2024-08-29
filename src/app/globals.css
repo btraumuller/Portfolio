@@ -171,9 +171,9 @@ input{
   }
   .animate-header{
     @media (prefers-reduced-motion: no-preference)  {
-      animation-timeline:scroll();
-      animation-range-start: 0px;
-      animation-range-end: 200px;
+        animation-timeline:scroll();
+        animation-range-start: 0px;
+        animation-range-end: 200px;
         transition:.15s ease-in-out;
     }
   }

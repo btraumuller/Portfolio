@@ -35,17 +35,19 @@ const config: Config = {
         aboutDescription:{
           'to':{
             transform: 'translateX(0)',
-            opacity: '1'
+            opacity: '1',
           }
         },
         header:{
           '0%' :{
             background:'transparent',
             padding:'1rem 0',
+            boxShadow: 'none'
           },
           '100%' :{
             background:'#002d72',
-            padding:'0'
+            padding:'0',
+            boxShadow: '0 0 10px 0 rgba(0,0,0,.5)'
           }
         }
       },

@@ -9,7 +9,7 @@ export default function SearchFields(){
     const searchHandler = (searchTerm:string) =>{
         let params = new URLSearchParams(searchParam);
         if (searchTerm){
-            params.set('searchQuery', searchTerm);
+            params.set('searchQuery', encodeURI(searchTerm));
         }else{
             params.delete('searchQuery');
         }
