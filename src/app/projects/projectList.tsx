@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { GetStaticProps } from "next";
 type ProjectListData = {
     projectFields:{
       projectDate: Date,
@@ -15,9 +16,14 @@ type ProjectListData = {
     id: string
     
 }[];
-export async function getprojectList(query:string){
+export async function GetStaticProps(query:string){
+    const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
 
-    const projects = await fetch('http://btraumullerportfoliocom.local/graphql', {
+    if (!wpGraphqlUrl) {
+        throw new Error('WP_GRAPHQL_URL environment variable is not defined');
+    }
+
+    const projects = await fetch(wpGraphqlUrl, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},  
         body: JSON.stringify({
@@ -43,6 +49,7 @@ export async function getprojectList(query:string){
     });
   
     let json = await projects.json();
+    
     let projectData = {
         props: {
             projects: json.data.projects.nodes
@@ -51,7 +58,7 @@ export async function getprojectList(query:string){
     return projectData.props.projects;
 }
 export default async function projectList({query}:{query:string}){
-    let projects:ProjectListData = await getprojectList(query);
+    let projects:ProjectListData = await GetStaticProps(query);
     if (!projects || projects.length === 0){
         return(
             <div><p>No projects found</p></div>

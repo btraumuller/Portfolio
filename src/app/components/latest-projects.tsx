@@ -26,9 +26,15 @@ type latestProjectData = {
 }[] | undefined;
 
 export async function GetStaticProps(){
+
+  const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
+
+    if (!wpGraphqlUrl) {
+        throw new Error('WP_GRAPHQL_URL environment variable is not defined');
+    }
   try{
 
-  const projects = await fetch('http://btraumullerportfoliocom.local/graphql', {
+  const projects = await fetch(wpGraphqlUrl, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},  
       body: JSON.stringify({

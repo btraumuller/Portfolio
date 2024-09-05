@@ -23,12 +23,21 @@ type projectDetailData = {
 
 export async function GetStaticProps(projectId:string){
 
+    
+
+    const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
+
+    if (!wpGraphqlUrl) {
+        throw new Error('WP_GRAPHQL_URL environment variable is not defined');
+    }
+
     if (projectId.includes("%3D")){
         projectId = projectId.replace(/%3D/g, "=");
     }
 
+
     try{
-        const projectDetail = await fetch('http://btraumullerportfoliocom.local/graphql', {
+        const projectDetail = await fetch(wpGraphqlUrl, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},  
             body: JSON.stringify({

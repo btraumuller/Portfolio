@@ -1,3 +1,4 @@
+"use sever";
 import styles from "./scss/parallax-banner.module.scss";
 import { getImageProps } from "next/image";
 import type { GetStaticProps } from "next";
@@ -12,9 +13,16 @@ type bannerDataType = {
 const common = {sizes: '100vw' }
 
 export async function GetStaticProps(){
+
+    const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
+
+    if (!wpGraphqlUrl) {
+        throw new Error('WP_GRAPHQL_URL environment variable is not defined');
+    }
+
     try{
-  
-    const banner = await fetch('http://btraumullerportfoliocom.local/graphql', {
+
+    const banner = await fetch(wpGraphqlUrl, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},  
         body: JSON.stringify({
@@ -50,16 +58,15 @@ export async function GetStaticProps(){
       });
   
       let json = await banner.json();
-
       let bannerData = {
         props: {
           banner: json.data.banners.nodes[0].bannerFields
         }
       }
       return bannerData.props.banner;
-  
+      
     }catch{
-      console.log('Hey there is an error with the Banner API call');
+      console.log('hey there is an error on banner API call');
     }
   }
 
