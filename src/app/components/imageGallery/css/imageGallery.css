@@ -102,7 +102,7 @@
 }
 
 .project-gallery__filters {
-    background: var(--tints-light-gray-30, linear-gradient(0deg, #F1F1F0 0%, #F1F1F0 100%), #D0D0CE);
+    background: #FFF;
     border-radius: 10px;
     margin-bottom: 2rem;
     margin-top: 2rem;
