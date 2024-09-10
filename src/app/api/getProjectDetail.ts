@@ -1,6 +1,6 @@
-export async function getProjectDetail(projectId:string){
+import {notFound} from "next/navigation";
 
-    
+export async function getProjectDetail(projectId:string){
 
     const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
 

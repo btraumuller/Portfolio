@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import {notFound} from "next/navigation";
+import { getProjectDetail } from "@/app/api/getProjectDetail";
 
 type projectDetailData = {
     title: string
