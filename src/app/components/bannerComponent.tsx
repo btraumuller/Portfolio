@@ -19,16 +19,18 @@ export default function bannerComponent(props:bannerData){
                         indexNumber = 'reverse'
                     }
                     return(
-                        <div style={{'--duration':'70951ms', '--direction':`${indexNumber}`}} key={i}>
-                            <div className="flex w-fit animate-loop" >
-                                {props.bannerProp.tags.map((tag)=>{
-                                    return(
-                                        <div className="mx-1 my-1 text-white flex-nowrap flex w-auto whitespace-nowrap text-[8rem] leading-[7rem] lg:text-[12rem] lg:leading-[11rem]" key={tag.name}>{tag.name}</div>
-                                        )
-                                    })          
-                                }
-                            </div>
-                        </div>
+                        <>
+                        </>
+                        // <div style={{'--duration':'70951ms', '--direction':`${indexNumber}`}} key={i}>
+                        //     <div className="flex w-fit animate-loop" >
+                        //         {props.bannerProp.tags.map((tag)=>{
+                        //             return(
+                        //                 <div className="mx-1 my-1 text-white flex-nowrap flex w-auto whitespace-nowrap text-[8rem] leading-[7rem] lg:text-[12rem] lg:leading-[11rem]" key={tag.name}>{tag.name}</div>
+                        //                 )
+                        //             })          
+                        //         }
+                        //     </div>
+                        // </div>
                     )
                     
                 }) 
