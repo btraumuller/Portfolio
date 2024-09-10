@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import type { GetStaticProps } from 'next';
 import Link from 'next/link';
 import { DM_Sans } from "next/font/google";
 const dmSans = DM_Sans({ 
@@ -25,7 +24,7 @@ type latestProjectData = {
     
 }[] | undefined;
 
-export async function GetStaticProps(){
+export async function getLatestProjects(){
 
   const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
 
@@ -73,7 +72,7 @@ export async function GetStaticProps(){
   }
 }
 export default async function latestProjects(){
-    const posts:latestProjectData = await GetStaticProps();
+    const posts:latestProjectData = await getLatestProjects();
     if (!posts){
       return(
         <div className="px-4 w-full mx-auto max-w-screen-xl">

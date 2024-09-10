@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import type { GetStaticProps } from "next";
 
 type aboutDataType = {
     description: string,
@@ -25,7 +24,7 @@ type aboutDataType = {
     }
 }
 
-export async function GetStaticProps(){
+export async function getAbout(){
     const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
 
     if (!wpGraphqlUrl) {
@@ -77,11 +76,11 @@ export async function GetStaticProps(){
       return bioData.props.bio;
   
     }catch{
-      console.log('Hey there is an error wiht the About Us API call');
+      console.log('Hey there is an error with the About Us API call');
     }
   }
 export default async function aboutMe (){
-    let aboutMeData:aboutDataType = await GetStaticProps();
+    let aboutMeData:aboutDataType = await getAbout();
     if (aboutMeData){
         return(
             <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row px-4 lg:px-0">

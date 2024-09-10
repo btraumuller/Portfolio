@@ -16,7 +16,7 @@ type ProjectListData = {
     id: string
     
 }[];
-export async function GetStaticProps(query:string){
+export async function getProjectList(query:string){
     const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
 
     if (!wpGraphqlUrl) {
@@ -58,7 +58,7 @@ export async function GetStaticProps(query:string){
     return projectData.props.projects;
 }
 export default async function projectList({query}:{query:string}){
-    let projects:ProjectListData = await GetStaticProps(query);
+    let projects:ProjectListData = await getProjectList(query);
     if (!projects || projects.length === 0){
         return(
             <div><p>No projects found</p></div>

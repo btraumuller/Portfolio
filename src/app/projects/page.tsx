@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { getImageProps } from 'next/image';
-import type { GetStaticProps } from 'next';
 
 type bannerDataType = {
     headline: string,
@@ -15,7 +14,7 @@ type bannerDataType = {
 }
 
 const common = {sizes: '100vw' }
-export async function GetStaticProps(){
+export async function getBanner(){
     const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
 
     if (!wpGraphqlUrl) {
@@ -80,7 +79,7 @@ export default async function projectList({searchParams}:{
 }){
     const searchQuery = searchParams?.searchQuery || "";
 
-    const bannerData: bannerDataType = await GetStaticProps();
+    const bannerData: bannerDataType = await getBanner();
 
     const {props: { srcSet: desktop }} = getImageProps({
         ...common,

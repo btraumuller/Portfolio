@@ -12,7 +12,7 @@ type bannerDataType = {
 
 const common = {sizes: '100vw' }
 
-export async function GetStaticProps(){
+export async function getBanner(){
 
     const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
 
@@ -73,7 +73,7 @@ export async function GetStaticProps(){
   
 
 export default async function parallaxBanner() {
-    const bannerData: bannerDataType = await GetStaticProps();
+    const bannerData: bannerDataType = await getBanner();
 
     const {props: { srcSet: desktop }} = getImageProps({
         ...common,
