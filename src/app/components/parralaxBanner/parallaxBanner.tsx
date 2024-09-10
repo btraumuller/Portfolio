@@ -1,7 +1,8 @@
-"use sever";
+
 import styles from "./scss/parallax-banner.module.scss";
 import { getImageProps } from "next/image";
-import type { GetStaticProps } from "next";
+import { getParallaxBanner } from "@/app/api/getParallaxBanner";
+
 type bannerDataType = {
     headline: string,
     description: string,
@@ -12,68 +13,8 @@ type bannerDataType = {
 
 const common = {sizes: '100vw' }
 
-export async function getBanner(){
-
-    const wpGraphqlUrl = process.env.WP_GRAPHQL_URL;
-
-    if (!wpGraphqlUrl) {
-        throw new Error('WP_GRAPHQL_URL environment variable is not defined');
-    }
-
-    try{
-
-    const banner = await fetch(wpGraphqlUrl, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},  
-        body: JSON.stringify({
-          query: `query getBanner {
-            banners(where: {title: "Home Page"}) {
-                nodes {
-                bannerFields {
-                    description
-                    headline
-                    desktopImage {
-                    node {
-                        altText
-                        mediaItemUrl
-                    }
-                    }
-                    mobileImage {
-                    node {
-                        altText
-                        mediaItemUrl
-                    }
-                    }
-                    tabletImage {
-                    node {
-                        altText
-                        mediaItemUrl
-                    }
-                    }
-                }
-                }
-            }
-            }
-        `})
-      });
-  
-      let json = await banner.json();
-      let bannerData = {
-        props: {
-          banner: json.data.banners.nodes[0].bannerFields
-        }
-      }
-      return bannerData.props.banner;
-      
-    }catch{
-      console.log('hey there is an error on banner API call');
-    }
-  }
-
-  
-
 export default async function parallaxBanner() {
-    const bannerData: bannerDataType = await getBanner();
+    const bannerData: bannerDataType = await getParallaxBanner();
 
     const {props: { srcSet: desktop }} = getImageProps({
         ...common,
