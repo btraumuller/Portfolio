@@ -372,10 +372,12 @@ export default function ImageGallery(){
     return(
         <div className='project-gallery'>
             <div className="project-gallery__filters">
-                    <Suspense>
+                    
                         <Splide className="nav nav-TabsType splide__list" role="tablist" options={SplideOptions} ref={SplideRef}>
+                            <Suspense>
                             {
                                 DataState.filterTags.map((tab:{active:boolean, value:string, label:string}, i:number) =>
+                                    
                                     <SplideSlide  
                                         key={i}  
                                         role="presentation" 
@@ -384,10 +386,11 @@ export default function ImageGallery(){
                                         onKeyUp={(event:KeyboardEvent) => CheckKey(event,tab.value, 'Room')}>
                                             {tab.label}
                                     </SplideSlide>
+                                    
                                 )
                             }
+                            </Suspense>
                         </Splide>
-                    </Suspense>
                 </div>
                 <Suspense>
                     <Select 
