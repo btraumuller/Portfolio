@@ -1,5 +1,6 @@
 "use client"
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { Suspense } from "react";
 
 export default function SearchFields(){
     const searchParam = useSearchParams();
@@ -18,14 +19,16 @@ export default function SearchFields(){
     return (
         <div className="flex rounded border-black py-8 relative">
             <label className="sr-only" htmlFor="project-search">Search:</label>
-            <input
-                id="project-search"
-                name="project-search"
-                placeholder="Search by name"
-                defaultValue={searchParam.get('searchQuery')?.toString()}
-                className="w-full rounded p-4"
-                onChange={(e) => searchHandler(e.target.value)}
-            />
+            <Suspense>
+                <input
+                    id="project-search"
+                    name="project-search"
+                    placeholder="Search by name"
+                    defaultValue={searchParam.get('searchQuery')?.toString()}
+                    className="w-full rounded p-4"
+                    onChange={(e) => searchHandler(e.target.value)}
+                />
+            </Suspense>
         </div>
     );
 }
