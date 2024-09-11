@@ -23,6 +23,11 @@ const nextConfig = {
             port:'',
           },
           {
+            protocol: 'https',
+            hostname: 'btraumuller-portfolio-new.flywheelsites.com',
+            port:'',
+          },
+          {
               protocol: 'https',
               hostname: 'images.unsplash.com',
               port:''
