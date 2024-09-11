@@ -30,7 +30,10 @@ const config: Config = {
           '100%': { transform: 'translateX(-50%)' }
         },
         aboutImage:{
-          'to' : {transform: 'translateX(0)'},
+          'to' : {
+            transform: 'translateX(0)',
+            opacity: '1'
+          },
         },
         aboutDescription:{
           'to':{
