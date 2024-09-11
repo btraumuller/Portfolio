@@ -156,6 +156,7 @@ input{
     @media (prefers-reduced-motion: no-preference)  {
       transform: translateX(50%);
       animation-timeline: view();
+      opacity:1;
       animation-range-start: 200px;
       animation-range-end: 400px;
     }
