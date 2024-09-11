@@ -54,6 +54,7 @@ export async function getProjectDetail(projectId:string){
         return projectData.props.projects;
     }catch{
         console.log('There is an error retrieving this Data');
+        return null;
     }
     
 }

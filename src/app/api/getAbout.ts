@@ -51,5 +51,6 @@ export async function getAbout(){
   
     }catch{
       console.log('Hey there is an error with the About Us API call');
+      return null;
     }
   }

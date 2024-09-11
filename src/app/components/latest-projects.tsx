@@ -28,16 +28,9 @@ type latestProjectData = {
 
 export default async function latestProjects(){
     const posts:latestProjectData = await getLatestProjects();
-    if (!posts){
+    if (posts){
       return(
         <div className="px-4 w-full mx-auto max-w-screen-xl">
-            <h2 className={`${dmSans.variable} text-6xl my-4 lg:my-8 text-center`}>My Latest Projects</h2>
-            <p className='text-center py-4'>There are no projects to display at the moment.</p>
-        </div>
-      );
-    }else{
-      return(
-         <div className="px-4 w-full mx-auto max-w-screen-xl">
             <h2 className={`${dmSans.variable} text-6xl my-4 lg:my-8 text-center`}>My Latest Projects</h2>
               
             <div className="dm flex flex-col md:flex-row pt-8 justify-between flex">
@@ -62,7 +55,14 @@ export default async function latestProjects(){
               <Link className="primary-btn" href="/projects">View All Projects</Link>
             </div>
           </div>
-    )
+      );
+    }else{
+      return(
+        <div className="px-4 w-full mx-auto max-w-screen-xl">
+          <h2 className={`${dmSans.variable} text-6xl my-4 lg:my-8 text-center`}>My Latest Projects</h2>
+          <p className='text-center py-4'>There are no projects to display at the moment.</p>
+        </div>
+      )
     }
     
 }

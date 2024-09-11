@@ -53,5 +53,6 @@ export async function getParallaxBanner(){
       
     }catch{
       console.log('hey there is an error on banner API call');
+      return null;
     }
   }

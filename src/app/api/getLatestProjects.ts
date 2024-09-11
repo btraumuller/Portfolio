@@ -43,5 +43,6 @@ export async function getLatestProjects(){
   
     }catch{
       console.log('hey there is an error on latest projects API call');
+      return null;
     }
   }
