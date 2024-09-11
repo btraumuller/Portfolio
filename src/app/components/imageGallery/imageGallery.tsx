@@ -370,6 +370,7 @@ export default function ImageGallery(){
     
         
     return(
+        <Suspense fallback={'...loading'}>
         <div className='project-gallery'>
             <div className="project-gallery__filters">
                     
@@ -432,6 +433,6 @@ export default function ImageGallery(){
                 />
                 
         </div>
-        
+        </Suspense>
     )
 }
