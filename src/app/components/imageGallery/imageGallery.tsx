@@ -5,7 +5,6 @@ import GalleryListings from './components/galleryListings';
 import { useId } from 'react';
 import Select, { SelectInstance } from 'react-select';
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { Suspense } from 'react';
 // @ts-ignore
 import { Splide, SplideSlide } from '@splidejs/react-splide'; 
 import { useEffect, useReducer, useState, useRef } from 'react';
@@ -370,54 +369,46 @@ export default function ImageGallery(){
     
         
     return(
-        <Suspense fallback={'...loading'}>
         <div className='project-gallery'>
             <div className="project-gallery__filters">
-                    
-                        <Splide className="nav nav-TabsType splide__list" role="tablist" options={SplideOptions} ref={SplideRef}>
-                            <Suspense>
-                            {
-                                DataState.filterTags.map((tab:{active:boolean, value:string, label:string}, i:number) =>
-                                    
-                                    <SplideSlide  
-                                        key={i}  
-                                        role="presentation" 
-                                        className= {`splide__slide ${tab.active ? 'active' : ''}`} 
-                                        onClick={() => SelectAction(tab.value, 'Room')} 
-                                        onKeyUp={(event:KeyboardEvent) => CheckKey(event,tab.value, 'Room')}>
-                                            {tab.label}
-                                    </SplideSlide>
-                                    
-                                )
-                            }
-                            </Suspense>
-                        </Splide>
+                    <Splide className="nav nav-TabsType splide__list" role="tablist" options={SplideOptions} ref={SplideRef}>
+                        {
+                            DataState.filterTags.map((tab:{active:boolean, value:string, label:string}, i:number) =>
+                                <SplideSlide  
+                                    key={i}  
+                                    role="presentation" 
+                                    className= {`splide__slide ${tab.active ? 'active' : ''}`} 
+                                    onClick={() => SelectAction(tab.value, 'Room')} 
+                                    onKeyUp={(event:KeyboardEvent) => CheckKey(event,tab.value, 'Room')}>
+                                        {tab.label}
+                                </SplideSlide>
+                            )
+                        }
+                    </Splide>
                 </div>
-                <Suspense>
-                    <Select 
-                        options={DataState.filterTags} 
-                        isSearchable={false} 
-                        value={DataState.filterTags.filter((option:{value:string}) => option.value === Selections.roomSelection)}
-                        placeholder="Select Room" 
-                        className="select-dropdown-container mobile-filter" 
-                        classNamePrefix="select-dropdown" 
-                        onChange={(e: { value: string }) => SelectAction(e, 'Room')} />
-                </Suspense>
-                <p className="project-gallery__counter">{DataState.totalResultsLabel}</p>
-                <Suspense>
-                    <Select 
-                        options={DataState.designStyleTags}
-                        value={DataState.designStyleTags.filter((option:{value:string}) => option.value === Selections.designSelection)} 
-                        placeholder="Select Styles" 
-                        isSearchable={false} 
-                        className="select-dropdown-container" 
-                        classNamePrefix="select-dropdown" 
-                        onChange={(e: unknown) => SelectAction(e as { value: string }, 'Design')}
-                        instanceId={useId()}
-                        ref={SelectRef}
-                    />
-                </Suspense>       
+
+                <Select 
+                    options={DataState.filterTags} 
+                    isSearchable={false} 
+                    value={DataState.filterTags.filter((option:{value:string}) => option.value === Selections.roomSelection)}
+                    placeholder="Select Room" 
+                    className="select-dropdown-container mobile-filter" 
+                    classNamePrefix="select-dropdown" 
+                    onChange={(e: { value: string }) => SelectAction(e, 'Room')} />
                 
+                <p className="project-gallery__counter">{DataState.totalResultsLabel}</p>
+
+                <Select 
+                    options={DataState.designStyleTags}
+                    value={DataState.designStyleTags.filter((option:{value:string}) => option.value === Selections.designSelection)} 
+                    placeholder="Select Styles" 
+                    isSearchable={false} 
+                    className="select-dropdown-container" 
+                    classNamePrefix="select-dropdown" 
+                    onChange={(e: unknown) => SelectAction(e as { value: string }, 'Design')}
+                    instanceId={useId()}
+                    ref={SelectRef}
+                />
                 
                 <GalleryListings 
                     hideList={DataState.hideList} 
@@ -433,6 +424,6 @@ export default function ImageGallery(){
                 />
                 
         </div>
-        </Suspense>
+        
     )
 }
