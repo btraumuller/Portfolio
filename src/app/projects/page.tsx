@@ -72,9 +72,9 @@ export default async function projectList(
             </div>
             <main className="flex min-h-screen flex-col items-center w-full relative z-[1]">
                 <div className='max-w-screen-xl mx-auto w-full flex flex-col px-4 py-8 z-10'>
-                    <Link href='/'><FontAwesomeIcon icon={faHouse} className=" self-center mr-2 text-1xl" />Home</Link>
-                    <SearchFields />
+                    <Link href='/'><FontAwesomeIcon icon={faHouse} className=" self-center mr-2 text-1xl" />Home</Link> 
                     <Suspense fallback={"...loading"}>
+                        <SearchFields />
                         <ProjectList query={searchQuery} />
                     </Suspense>
                 </div>
