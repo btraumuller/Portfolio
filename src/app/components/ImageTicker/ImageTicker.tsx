@@ -23,7 +23,7 @@ const mockData:ImageTickerType = {
     linkLabel: 'View on Github',
     link: 'https://github.com/btraumuller/Portfolio'
 };
-export default function imageTicker(){
+export default function ImageTicker(){
     return(
     <div className="max-w-screen-xl mx-auto w-full flex flex-col flex-wrap px-4 lg:px-0 justify-center">
         <h2 className="text-4xl my-4 lg:my-[4rem] text-center">{mockData.title}</h2>
