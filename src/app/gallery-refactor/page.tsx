@@ -3,7 +3,7 @@ import Link from "next/link";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function galleryRefactor(){
+export default function GalleryRefactor(){
     return(
         <main>
             <div className="max-w-screen-xl mx-auto flex flex-col px-4 pt-[8rem]">
