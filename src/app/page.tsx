@@ -1,6 +1,6 @@
 import LatestProjects from './components/LatestProjects/LatestProjects';
 import AboutMe from "./components/AboutMe/AboutMe";
-import Ticker from "./components/imageTicker/imageTicker";
+import Ticker from "./components/ImageTicker/ImageTicker";
 import ParallaxBanner from "./components/ParallaxBanner/ParallaxBanner";
 
 // Mock Data for CSS Headline (Want to implement at future date)
