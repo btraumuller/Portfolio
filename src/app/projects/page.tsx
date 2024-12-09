@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { getImageProps } from 'next/image';
 import {getBanner} from '@/app/actions/getBanner';
+import { Suspense } from 'react';
 
 type bannerDataType = {
     headline: string,
@@ -73,7 +74,9 @@ export default async function projectList(
                 <div className='max-w-screen-xl mx-auto w-full flex flex-col px-4 py-8 z-10'>
                     <Link href='/'><FontAwesomeIcon icon={faHouse} className=" self-center mr-2 text-1xl" />Home</Link>
                     <SearchFields />
-                    <ProjectList query={searchQuery} />
+                    <Suspense fallback={"...loading"}>
+                        <ProjectList query={searchQuery} />
+                    </Suspense>
                 </div>
             </main>
         </>
