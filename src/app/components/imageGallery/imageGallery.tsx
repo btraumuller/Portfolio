@@ -1,14 +1,14 @@
 "use client"
 
-import './css/imageGallery.css';
-import GalleryListings from './components/GalleryListings';
-import { useId } from 'react';
-import Select, { SelectInstance } from 'react-select';
+import { useId, useEffect, useReducer, useState, useRef } from 'react';
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import Select, { SelectInstance } from 'react-select';
+import axios from 'axios';
+import GalleryListings from './components/GalleryListings';
+import './css/imageGallery.css';
+
 // @ts-ignore
 import { Splide, SplideSlide } from '@splidejs/react-splide'; 
-import { useEffect, useReducer, useState, useRef } from 'react';
-import axios from 'axios';
 
 import { 
     OptionType, 
