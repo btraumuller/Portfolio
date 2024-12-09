@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import {notFound} from "next/navigation";
-import { getProjectDetail } from "@/app/api/getProjectDetail";
+import { getProjectDetail } from "@/app/actions/getProjectDetail";
 
 type projectDetailData = {
     title: string
@@ -21,11 +21,14 @@ type projectDetailData = {
     } 
 };
 
-export default async function projectDetail({params}:{
-    params:{
-        projectId: string
+export default async function projectDetail(
+    props:{
+        params: Promise<{
+            projectId: string
+        }>
     }
-}){
+) {
+    const params = await props.params;
     let projectDetail:projectDetailData = await getProjectDetail(params.projectId);
     let datePosted = new Date(projectDetail.projectFields.projectDate).toLocaleDateString('default', {day:'numeric', month:'long', year:'numeric'})
     let editorContent = {__html: projectDetail.projectFields.longDescription};
@@ -61,5 +64,4 @@ export default async function projectDetail({params}:{
     }else{
         return notFound();
     }
-    
 }

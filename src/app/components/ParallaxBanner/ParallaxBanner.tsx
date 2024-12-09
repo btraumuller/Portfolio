@@ -1,7 +1,7 @@
 
 import styles from "./scss/parallax-banner.module.scss";
 import { getImageProps } from "next/image";
-import { getParallaxBanner } from "@/app/api/getParallaxBanner";
+import { getParallaxBanner } from "../../actions/getParallaxBanner";
 
 type bannerDataType = {
     headline: string,
@@ -13,7 +13,7 @@ type bannerDataType = {
 
 const common = {sizes: '100vw' }
 
-export default async function parallaxBanner() {
+export default async function ParallaxBanner() {
     const bannerData: bannerDataType = await getParallaxBanner();
     if (bannerData){
         const {props: { srcSet: desktop }} = getImageProps({

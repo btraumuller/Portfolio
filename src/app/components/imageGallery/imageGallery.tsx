@@ -1,7 +1,7 @@
 "use client"
 
 import './css/imageGallery.css';
-import GalleryListings from './components/galleryListings';
+import GalleryListings from './components/GalleryListings';
 import { useId } from 'react';
 import Select, { SelectInstance } from 'react-select';
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
@@ -235,7 +235,7 @@ function getData(state: any , action: ActionType){
 }
 
 export default function ImageGallery(){
-    const SplideRef = useRef();
+    const SplideRef = useRef<null | Splide>(null);
     const SelectRef = useRef<SelectInstance | null>(null);
     const [BooleanValues, setBooleanValues] = useState(booleanStates);
     const [Selections, setSelections] = useState(urlSelections);
@@ -320,8 +320,8 @@ export default function ImageGallery(){
 
             setSelections((prevState) => ({...prevState, roomSelection: urlRoom, designSelection: urlQuery, cardsPerPage: urlCardCount}))
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+  
+    }, [CurrentCards, DataState.tabFilters, RoomTypeParam, StyleTypeParam]);
 
     useEffect(() => {
 

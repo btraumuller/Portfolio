@@ -1,4 +1,4 @@
-import ImageGallery from "../components/imageGallery/imageGallery"
+import ImageGallery from "../components/ImageGallery/ImageGallery"
 import Link from "next/link";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

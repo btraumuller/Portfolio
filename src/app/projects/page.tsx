@@ -1,10 +1,10 @@
-import SearchFields from './searchFields';
-import ProjectList from './projectList';
+import SearchFields from '../components/SearchFields/SearchFields';
+import ProjectList from '../components/ProjectList/projectList';
 import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { getImageProps } from 'next/image';
-import {getBanner} from '@/app/api/getBanner';
+import {getBanner} from '@/app/actions/getBanner';
 
 type bannerDataType = {
     headline: string,
@@ -16,11 +16,14 @@ type bannerDataType = {
 
 const common = {sizes: '100vw' }
 
-export default async function projectList({searchParams}:{
-    searchParams?:{
-        searchQuery?: string
+export default async function projectList(
+    props0:{
+        searchParams?: Promise<{
+            searchQuery?: string
+        }>
     }
-}){
+) {
+    const searchParams = await props0.searchParams;
     const searchQuery = searchParams?.searchQuery || "";
 
     const bannerData: bannerDataType = await getBanner();
@@ -75,6 +78,5 @@ export default async function projectList({searchParams}:{
             </main>
         </>
         
-    ) 
-    
+    )
 }

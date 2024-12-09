@@ -152,7 +152,7 @@ input{
     grid-template-rows: repeat(1, 244px);
     grid-gap: 5%;
   }
-  .animate-aboutImage {
+  .animate-about__Image {
     @media (prefers-reduced-motion: no-preference)  {
       transform: translateX(50%);
       opacity:1;

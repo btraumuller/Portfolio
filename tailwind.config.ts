@@ -29,7 +29,7 @@ const config: Config = {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' }
         },
-        aboutImage:{
+        about__Image:{
           'to' : {
             transform: 'translateX(0)',
             opacity: '1'
@@ -56,7 +56,7 @@ const config: Config = {
       },
       animation:{
         loop: 'loop linear infinite var(--duration) var(--direction) ',
-        aboutImage:'aboutImage linear forwards',
+        about__Image:'about__Image linear forwards',
         aboutDescription:'aboutDescription linear forwards',
         header: 'header linear .1s forwards'
       },

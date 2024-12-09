@@ -16,9 +16,9 @@ $n:5; /* number of images*/
   animation: r var(--d) linear infinite;
 }
 @for $i from 2 to ($n + 1) {
-  .gallery > img:nth-child(#{$i}) {animation-delay: calc(#{(1 - $i)/$n}*var(--d))}
+  .gallery > img:nth-child(#{$i}) {animation-delay: calc(#{calc((1 - $i)/$n)}*var(--d))}
 }
 @keyframes r {
-    #{100*($n - 1)/$n}% {transform: translate((1 - $n)*100%)}
-    #{100*($n - 1)/$n + .01}% {transform: translate(100%)}
+    #{calc(100*($n - 1) / $n)}% {transform: translate(#{(1 - $n)*100%});}
+    #{calc(100*($n - 1) / $n + .01)}% {transform: translate(100%)}
 }
