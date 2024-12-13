@@ -22,7 +22,8 @@ export default async function ParallaxBanner() {
             height: 768,
             quality: 90,
             src: bannerData.desktopImage.node.mediaItemUrl,
-            alt: bannerData.desktopImage.node.altText
+            alt: bannerData.desktopImage.node.altText,
+            loading: 'eager'
         })
     
         const {props: { srcSet: tablet }} = getImageProps({
@@ -31,7 +32,8 @@ export default async function ParallaxBanner() {
             height: 1024,
             quality: 90,
             src: bannerData.tabletImage.node.mediaItemUrl,
-            alt: bannerData.tabletImage.node.altText
+            alt: bannerData.tabletImage.node.altText,
+            loading: 'eager'
         })
     
         const {props: { ...mobile}} = getImageProps({
@@ -40,9 +42,9 @@ export default async function ParallaxBanner() {
             height: 1200,
             quality: 90,
             src: bannerData.mobileImage.node.mediaItemUrl,
-            alt: bannerData.mobileImage.node.altText
+            alt: bannerData.mobileImage.node.altText,
+            loading: 'eager'
         })
-       
         return(
             <div className={styles.parallax}>
                 <picture>
