@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Brian Traumuller: Web Portfolio",
-  description: "This site showcases the work of Brian Traumuller, a front-end developer with 15 years experience.",
+  description: "This site showcases the work of Brian Traumuller, a frontend developer with 15 years experience.",
 };
 
 export default function RootLayout({
