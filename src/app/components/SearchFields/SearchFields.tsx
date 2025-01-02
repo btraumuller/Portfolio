@@ -1,13 +1,14 @@
 "use client"
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { Suspense } from "react";
+import { useDebouncedCallback } from 'use-debounce';
 
 export default function SearchFields(){
     const searchParam = useSearchParams();
     const {replace} = useRouter();
     const pathname = usePathname();
 
-    const searchHandler = (searchTerm:string) =>{
+    const searchHandler = useDebouncedCallback((searchTerm:string) =>{
         let params = new URLSearchParams(searchParam);
         if (searchTerm){
             params.set('searchQuery', encodeURI(searchTerm));
@@ -15,7 +16,7 @@ export default function SearchFields(){
             params.delete('searchQuery');
         }
         replace(`${pathname}?${params.toString()}`);
-    }
+    }, 300);
     return (
         <div className="flex rounded border-black py-8 relative">
             <label className="sr-only" htmlFor="project-search">Search:</label>
