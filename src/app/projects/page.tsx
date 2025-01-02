@@ -1,12 +1,12 @@
-import SearchFields from '../components/SearchFields/SearchFields';
-import ProjectList from '../components/ProjectList/projectList';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { getImageProps } from 'next/image';
 import {getBanner} from '@/app/actions/getBanner';
-import { Suspense } from 'react';
-
+import SearchFields from '../components/SearchFields/SearchFields';
+import ProjectList from '../components/ProjectList/projectList';
+import LoadingIcon from '../components/Loading/Loading';
 type bannerDataType = {
     headline: string,
     description: string,
@@ -74,7 +74,7 @@ export default async function projectList(
                 <div className='max-w-screen-xl mx-auto w-full flex flex-col px-4 py-8 z-10'>
                     <Link href='/'><FontAwesomeIcon icon={faHouse} className=" self-center mr-2 text-1xl" />Home</Link>
                     <SearchFields />
-                    <Suspense fallback={"...loading"}>
+                    <Suspense fallback={<LoadingIcon />}>
                         <ProjectList query={searchQuery} />
                     </Suspense>
                 </div>

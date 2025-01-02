@@ -1,6 +1,5 @@
 "use client"
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { Suspense } from "react";
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function SearchFields(){
@@ -20,7 +19,6 @@ export default function SearchFields(){
     return (
         <div className="flex rounded border-black py-8 relative">
             <label className="sr-only" htmlFor="project-search">Search:</label>
-            <Suspense>
                 <input
                     id="project-search"
                     name="project-search"
@@ -29,7 +27,6 @@ export default function SearchFields(){
                     className="w-full rounded p-4"
                     onChange={(e) => searchHandler(e.target.value)}
                 />
-            </Suspense>
         </div>
     );
 }

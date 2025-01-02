@@ -47,8 +47,8 @@ export default async function LatestProjects(){
                         <p className='text-black'>{project.projectFields.shortDescription}</p>
                       </div>
                     </Link>
-                )
-              })
+                  )
+                })
               }
             </div>
             <div className="py-4 lg:pb-8 lg:pt-14 flex justify-center">
