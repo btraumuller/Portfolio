@@ -37,6 +37,9 @@ ul{
 header{
   position: fixed;
 }
+header.blue{
+  background:#002d72;
+}
 footer{
   background-color: #002d72;
   padding: 1rem 0;
