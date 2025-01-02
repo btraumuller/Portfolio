@@ -72,7 +72,7 @@ export default async function projectList({query}:{query:string}){
                     return(
                         <Link href={projectLink} className="cursor-pointer relative mb-8 hover:relative hover:top-[-20px] project-card md:w-[30%] max-w-[400px] latest-projects-border" key={i}>
                             <Image src={project.projectFields.thumbnailImage.node.mediaItemUrl} width={400} height={400} alt={project.projectFields.thumbnailAltText} ></Image>
-                            <div className="p-4 bg-white h-full">
+                            <div className="p-4 bg-white h-full border border-t-black">
                                 <p className='text-black mb-4'>{datePosted}</p>
                                 <h3 className='text-2xl text-black mb-2'>{project.title}</h3>
                                 <p className='text-black'>{project.projectFields.shortDescription}</p>
