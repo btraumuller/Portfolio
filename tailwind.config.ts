@@ -1,4 +1,3 @@
-import { height } from "@fortawesome/free-brands-svg-icons/fa42Group";
 import type { Config } from "tailwindcss";
 
 const config: Config = {

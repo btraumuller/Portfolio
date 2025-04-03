@@ -18,7 +18,7 @@ export default function GalleryListings(props:galleryListData){
                                 <li key={i}>
                                     <a href={project.Link} target="_blank" tabIndex={0}>
                                         <span className="image-label"><span>{props.hoverLabel}</span></span>
-                                        <Image src={project.ImageSrc} alt={project.Name} width={400} height={400} loading="lazy" />
+                                        <Image src={project.ImageSrc} alt={project.Name? project.Name: 'gallery Image'} width={400} height={400} loading="lazy" />
                                     </a>
                                 </li>
                             )

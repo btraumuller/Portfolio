@@ -50,7 +50,7 @@ export default async function ParallaxBanner() {
                 <picture>
                     <source media="(min-width: 1025px)" srcSet={desktop} />
                     <source media="(min-width: 768px)" srcSet={tablet} />
-                    <img {...mobile} className='w-full min-h-[400px] absolute top-0 z-0 object-cover' />
+                    <img {...mobile} className='w-full min-h-[400px] h-full absolute top-0 z-0 object-cover' />
                 </picture>
                 <div className={styles.parallax__content}>
                     <h1>{bannerData.headline}</h1>
