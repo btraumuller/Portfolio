@@ -50,7 +50,7 @@ export default async function projectDetail(
                         
                     <div className="py-8">
                         <p className="py-4 text-lg lg:text-xl"><b>Created:</b> {datePosted}</p>
-                        <div className="py-4 text-lg lg:text-xl" dangerouslySetInnerHTML={editorContent} />
+                        <div className="text-lg lg:text-xl" dangerouslySetInnerHTML={editorContent} />
                     </div>
                     {  projectDetail.projectFields.externalLink &&
                         <div className="pb-10">

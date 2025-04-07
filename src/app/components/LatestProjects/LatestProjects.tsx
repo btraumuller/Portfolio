@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { DM_Sans } from "next/font/google";
 import {getLatestProjects} from '@/app/actions/getLatestProjects';
+import ImageCard from '../ImageCard/ImageCard';
 
 const dmSans = DM_Sans({ 
   subsets: ["latin"],
@@ -31,22 +32,20 @@ export default async function LatestProjects(){
     if (posts){
       return(
         <div className="px-4 w-full mx-auto max-w-screen-xl">
-            <h2 className={`${dmSans.variable} text-6xl my-4 lg:my-8 text-center`}>My Latest Projects</h2>
+            <h2 className={`${dmSans.variable} text-4xl md:text-6xl my-4 lg:my-8 text-center`}>My Latest Projects</h2>
               
             <div className="dm flex-col md:flex-row pt-8 justify-between flex">
               { posts.map((project, i) =>{
-                let datePosted = new Date(project.projectFields.projectDate).toLocaleDateString('default', {day:'numeric', month:'long', year:'numeric'})
                 let projectId = project.id;
                 let projectLink = '/projects/' + projectId;
                 return(
-                    <Link href={projectLink} className="cursor-pointer relative mb-8 hover:relative hover:top-[-20px] md:mb-0 mx-auto project-card md:w-[30%] max-w-[400px] latest-projects-border" key={i}>
-                      <Image src={project.projectFields.thumbnailImage.node.mediaItemUrl} width={400} height={400} alt={project.projectFields.thumbnailAltText}/ >
-                      <div className="p-4 bg-white h-full">
-                        <p className='text-black mb-4'>{datePosted}</p>
-                        <h3 className='text-2xl text-black mb-2'>{project.title}</h3>
-                        <p className='text-black'>{project.projectFields.shortDescription}</p>
-                      </div>
-                    </Link>
+                    <ImageCard key={project.title} 
+                      projectLink={projectLink} 
+                      date={project.projectFields.projectDate.toString()} 
+                      srcLink={project.projectFields.thumbnailImage.node.mediaItemUrl} 
+                      altText={project.projectFields.thumbnailAltText} 
+                      projectTitle={project.title} 
+                      description={project.projectFields.shortDescription} />
                   )
                 })
               }

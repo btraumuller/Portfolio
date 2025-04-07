@@ -58,7 +58,7 @@ export default async function projectList(
 
     return(
         <>
-            <div className='relative overflow-hidden max-h-[400px] h-[55vh] lg:max-h-[1000px]'>
+            <div className='relative overflow-hidden min-h-[500px] h-[55vh] lg:max-h-[1000px]'>
                 <picture>
                     <source media="(min-width: 1035px)" srcSet={desktop} />
                     <source media="(min-width: 768px)" srcSet={tablet} />
@@ -73,10 +73,11 @@ export default async function projectList(
             <main className="flex min-h-screen flex-col items-center w-full relative z-[1]">
                 <div className='max-w-screen-xl mx-auto w-full flex flex-col px-4 py-8 z-10'>
                     <Link href='/'><FontAwesomeIcon icon={faHouse} className=" self-center mr-2 text-1xl" />Home</Link>
-                    <SearchFields />
-                    <Suspense fallback={<LoadingIcon />}>
+                    {/* <SearchFields /> */}
+                    <ProjectList query={searchQuery} />
+                    {/* <Suspense fallback={<LoadingIcon />}>
                         <ProjectList query={searchQuery} />
-                    </Suspense>
+                    </Suspense> */}
                 </div>
             </main>
         </>
