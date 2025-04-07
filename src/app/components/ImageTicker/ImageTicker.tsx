@@ -31,7 +31,7 @@ export default function ImageTicker(){
             <div className='slide-track flex-col lg:flex-row w-full'>
                 {mockData.images.map((image, i)=>{
                     return(
-                            <div className="slide mb-8 lg:mb-0 mx-[4rem]" key={i}>
+                            <div className="self-center mb-8 lg:mb-0 mx-[4rem] w-1/2 md:w-auto" key={i}>
                                 <Image  src={image.src} alt={image.alt} width="300" height="300" className="" />
                             </div>
                         )
@@ -39,7 +39,7 @@ export default function ImageTicker(){
                 }
             </div>
         </div>
-        <div className="pt-[5rem] flex justify-center">
+        <div className="pt-4 md:pt-[5rem] flex justify-center">
             <Link href={mockData.link} target="_blank" className="primary-btn"><FontAwesomeIcon icon={faGithub} className="self-center mr-2 text-2xl" />{mockData.linkLabel}</Link>
         </div>
     </div>  

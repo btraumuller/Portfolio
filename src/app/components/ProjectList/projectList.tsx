@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
 import ImageCard from "../ImageCard/ImageCard";
 type ProjectListData = {
     projectFields:{
@@ -66,7 +64,7 @@ export default async function projectList({query}:{query:string}){
     }else{
         return(
             <div className="dm flex-col md:flex-row pt-8 flex flex-wrap list-column">
-                 {projects.map((project, i) =>{
+                 {projects.map((project) =>{
                     let projectId = project.id;
                     let projectLink = '/projects/' + projectId;
                     return(

@@ -18,6 +18,7 @@ export default function ImageCard({
   projectTitle,
   description,
 }: ImageCardProps) {
+    
     let datePosted = new Date(date).toLocaleDateString('default', {day:'numeric', month:'long', year:'numeric'})
     return(
         <>
