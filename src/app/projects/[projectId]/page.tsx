@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import {notFound} from "next/navigation";
+import {format} from 'date-fns';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import {notFound} from "next/navigation";
 import { getProjectDetail } from "@/app/actions/getProjectDetail";
 
 type projectDetailData = {
@@ -30,7 +31,7 @@ export default async function projectDetail(
 ) {
     const params = await props.params;
     let projectDetail:projectDetailData = await getProjectDetail(params.projectId);
-    let datePosted = new Date(projectDetail.projectFields.projectDate).toLocaleDateString('default', {day:'numeric', month:'long', year:'numeric'})
+    let datePosted = format(new Date(projectDetail.projectFields.projectDate), 'MMMM d, yyyy');
     let editorContent = {__html: projectDetail.projectFields.longDescription};
     if(projectDetail){
         return(

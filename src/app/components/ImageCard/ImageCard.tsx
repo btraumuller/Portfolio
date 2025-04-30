@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { format } from 'date-fns';
 
 interface ImageCardProps {
   projectLink: string;
@@ -19,7 +20,7 @@ export default function ImageCard({
   description,
 }: ImageCardProps) {
     
-    let datePosted = new Date(date).toLocaleDateString('default', {day:'numeric', month:'long', year:'numeric'})
+    let datePosted = format(new Date(date), 'MMMM d, yyyy');
     return(
         <>
         <Link href={projectLink} className="cursor-pointer relative mb-8 hover:relative hover:top-[-20px] project-card md:w-[30%] max-w-[400px] latest-projects-border">
