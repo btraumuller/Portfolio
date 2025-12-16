@@ -1,7 +1,7 @@
 import path from 'path';
-import type { NextConfig } from 'next';
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   sassOptions: {
     // adjust the folder name if needed
     includePaths: [path.join(process.cwd(), 'src', 'app', 'globalStyles')],
